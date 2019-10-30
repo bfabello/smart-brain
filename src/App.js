@@ -35,8 +35,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      input: ' ',
-      imageUrl: ' ',
+      input: '',
+      imageUrl: '',
       box: {},
       route: 'signin',
       isSignedIn: false
