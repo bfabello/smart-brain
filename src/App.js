@@ -8,6 +8,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Clarifai from 'clarifai'
+import SignIn from './components/SignIn/SignIn';
 
 
 // initialize with your api key. This will also work in your browser via http://browserify.org/
@@ -33,9 +34,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      input: '',
-      imageUrl: '',
+      input: ' ',
+      imageUrl: ' ',
       box: {},
+      route: 'signin'
     }
   }
   
@@ -78,13 +80,18 @@ class App extends Component {
       <div className="App">
         <Particles className='particles' params={particlesOptions}/>
         <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm 
-          onInputChange={this.onInputChange} 
-          onButtonSubmit={this.onButtonSubmit}
-        />
-        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+        { this.state.route === 'signin' 
+          ? <SignIn />
+          : <div> 
+              <Logo /> 
+              <Rank />
+              <ImageLinkForm 
+                onInputChange={this.onInputChange} 
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+            </div>
+        }
       </div>
     );
   }
