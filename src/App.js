@@ -44,12 +44,22 @@ class App extends Component {
     }
   }
   
-  calculateFaceLocation = (data) => {
+  resetState = () => {
+    this.setState({
+      input: '',
+      imageUrl: '',
+      boxes: [],
+      faces: []
+    })
+  }
+  
+  calculateFaceLocation = (data) => {   
     const clarifaiFace = data.outputs[0].data.regions;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
     
+
     // parse through API JSON call and grab location data for each face
     for (const [, value] of clarifaiFace.entries()) {
         this.state.faces.push(value.region_info.bounding_box)
@@ -69,13 +79,13 @@ class App extends Component {
   displayFaceBox = () => {
     this.setState({boxes: this.state.boxes})
   }
-
+  
   onInputChange = (event) => {
     this.setState({input: event.target.value});
-    // console.log(event.target.value);
   }
     
   onButtonSubmit = () =>{
+    this.resetState();
     this.setState({imageUrl: this.state.input});
     app.models
       .predict(
