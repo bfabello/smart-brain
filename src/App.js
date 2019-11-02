@@ -129,20 +129,21 @@ class App extends Component {
           }
           this.displayFaceBox(this.calculateFaceLocation(response))  
         })
-      .catch(err => console.log(err));
-}
+        .catch(err => console.log(err));
+  }
   
   
   onRouteChange = (route) => {
-    if(route === 'signout'){
-      this.setState({isSignedIn: false})
-    }else if(route === 'home'){
+    if(route === 'home'){
       this.setState({isSignedIn: true})
+    }else if(route === 'signout'){
+      this.setState({isSignedIn: false})
     }
     this.setState({route: route})
   }
 
   render(){
+    const { isSignedIn, imageUrl, route, boxes, user} = this.state
     return (
       <div className="App">
         <Particles 
@@ -150,27 +151,27 @@ class App extends Component {
           params={particlesOptions}
         />
         <Navigation 
-          isSignedIn={this.state.isSignedIn} 
+          isSignedIn={isSignedIn} 
           onRouteChange={this.onRouteChange} 
         />
-        { this.state.route === 'home' 
+        { route === 'home' 
           ? <div> 
               <Logo /> 
               <Rank 
-                name={this.state.user.name}
-                entries={this.state.user.entries}
+                name={user.name}
+                entries={user.entries}
               />
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onPictureSubmit={this.onPictureSubmit}
               />
               <FaceRecognition 
-                boxes={this.state.boxes} 
-                imageUrl={this.state.imageUrl}
+                boxes={boxes} 
+                imageUrl={imageUrl}
               />
             </div> 
           : (
-              this.state.route === 'signin'
+              route === 'signin'
               ? <SignIn 
                   onRouteChange={this.onRouteChange}
                   loadUser={this.loadUser}
