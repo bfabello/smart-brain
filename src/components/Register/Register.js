@@ -1,6 +1,7 @@
 import React from 'react';
 
 class Register extends React.Component {
+	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -32,12 +33,11 @@ class Register extends React.Component {
 		})
 			.then(response => response.json())
 			.then(user => {
-				if(user.id){
+				if(user){
 					this.props.loadUser(user)
 					this.props.onRouteChange('home')
 				}
 			})
-			// this.props.onRouteChange('home')
 	}
 	render(){
 		return(
@@ -79,10 +79,10 @@ class Register extends React.Component {
 				    </fieldset>
 				    <div className="">
 				      <input 
-				      	onClick={this.onSubmitRegister} 
 				      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
 				      	type="submit" 
 				      	value="Register"
+				      	onClick={this.onSubmitRegister} 
 				      />
 				    </div>
 				  </div>
