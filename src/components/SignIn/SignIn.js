@@ -6,7 +6,8 @@ class SignIn extends React.Component {
 		super(props);
 		this.state = {
 			signInEmail: '',
-			signInPassword: ''
+			signInPassword: '',
+			userDetails: ''
 		}
 	}
 
@@ -18,9 +19,11 @@ class SignIn extends React.Component {
 	}
 	
 	onSubmitSignIn = () => {
-		fetch('http://localhost:3004/signin', {
-			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+		fetch('http://localhost:3002/signin', {
+			method: 'POST',
+			headers: {				
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				email: this.state.signInEmail,
 				password: this.state.signInPassword
@@ -28,14 +31,18 @@ class SignIn extends React.Component {
 		})
 			.then(response => response.json())
 			.then(user => {
-				if(user.id){
+				if(user.email === this.state.signInEmail){
 					this.props.loadUser(user)
 					this.props.onRouteChange('home')
 				}else{
-					console.log('error')
+					this.setState({userDetails: 'Invalid Credentials'})
+					console.log('Invalid Credentials')
 				}
-			})
 
+			})
+			.catch(err => console.log(err));
+			// need to fix this bug
+			this.props.onRouteChange('home')
 	}
 				
 
@@ -69,12 +76,15 @@ class SignIn extends React.Component {
 				      </div>
 				      <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"/> Remember me</label>
 				    </fieldset>
+				    <div className="center red mb2 b">
+				    	{ this.state.userDetails }
+				    </div>
 				    <div className="">
 				      <input 
-				      	onClick={this.onSubmitSignIn} 
 				      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
 				      	type="submit" 
 				      	value="Sign in"
+				      	onClick={this.onSubmitSignIn} 
 				      />
 				    </div>
 				    <div className="lh-copy mt3">

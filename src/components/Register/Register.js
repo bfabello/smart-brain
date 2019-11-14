@@ -7,7 +7,8 @@ class Register extends React.Component {
 		this.state = {
 			email: '',
 			password: '',
-			name: ''
+			name: '',
+			userDetails: ''
 		}
 	}
 
@@ -22,9 +23,11 @@ class Register extends React.Component {
 	}	
 
 	onSubmitRegister = () => {
-		fetch('http://localhost:3004/register', {
-			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+		fetch('http://localhost:3002/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				email: this.state.email,
 				password: this.state.password,
@@ -33,10 +36,13 @@ class Register extends React.Component {
 		})
 			.then(response => response.json())
 			.then(user => {
-				if(user){
+				if(user.id){
 					this.props.loadUser(user)
 					this.props.onRouteChange('home')
 				}
+				else{
+					this.setState({userDetails: 'Invalid Credentials'})
+				}	
 			})
 	}
 	render(){
@@ -77,6 +83,9 @@ class Register extends React.Component {
 				        />
 				      </div>
 				    </fieldset>
+				     <div className="center red mb2 b">
+				    	{ this.state.userDetails }
+				    </div>
 				    <div className="">
 				      <input 
 				      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
