@@ -7,7 +7,7 @@
     "knex": "^0.20.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-particles-js": "^2.7.0",
+    "react-particles-js": "^3.2.1",
     "react-scripts": "3.2.0",
     "react-tilt": "^0.1.4",
     "tachyons": "^4.11.1"
